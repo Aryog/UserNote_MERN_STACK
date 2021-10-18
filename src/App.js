@@ -4,12 +4,15 @@ import { Navbar } from "./components/Navbar";
 import { About } from "./components/About";
 import { Home } from "./components/Home";
 import Notestate from "./context/notes/NoteState";
+import { Alert } from "./components/Alert";
 function App() {
   return (
     <>
     <Notestate>
       <Router>
       <Navbar />
+      <Alert message="This is Amazing Course."/>
+      <div className="container">
           <Switch>
             <Route exact path="/">
               <Home />
@@ -18,6 +21,7 @@ function App() {
               <About />
             </Route>
           </Switch>
+          </div>
       </Router>
       </Notestate>
     </>

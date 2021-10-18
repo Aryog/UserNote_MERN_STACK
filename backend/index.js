@@ -6,11 +6,12 @@ const express = require('express')
 // for connection to mongodb compass
 connectMongo();
 
-const app = express()
-
+const app = express();
+var cors = require('cors')
 const port = 5000
 
 
+app.use(cors())
 // Middleware for the sake of request body 
 app.use(express.json());
 
@@ -28,5 +29,5 @@ app.use('/api/notes',require('./routes/notes'));
 // })
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
+  console.log(`User Notebook Backend listening at http://localhost:${port}`)
 })

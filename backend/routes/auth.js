@@ -30,13 +30,14 @@ router.post(
       // adding the salt and hashing using bcryptjs for storing the passwords
       const salt = await bcrypt.genSalt(10);
       const secpass = await bcrypt.hash(req.body.password, salt);
+      const success = "false";
 
       let user = await User.findOne({ email: req.body.email });
       // if user already exists then if is true
       if (user) {
         return res
           .status(400)
-          .json({ email: "email with this user exists already" });
+          .json({success:success, email: "email with this user exists already" });
       }
       user = await User.create({
         name: req.body.name,
@@ -50,12 +51,14 @@ router.post(
       };
       const authToken = jwt.sign(data, JWT_SECRET);
       console.log(authToken);
-
       //  .then(user => res.json(user)) type of returning the promises
       //  .catch(err=>{console.log(err)
       // res.json({email: "email cannot be duplicate."})
       // res.json(user)
-      res.json({ authToken });
+      if(authToken)
+      {
+        res.json({success:"true", authToken });
+      }
     } catch (error) {
       console.error(error.message);
       res.status(500).send("Internal server error");
@@ -79,6 +82,7 @@ router.post(
     // Destructuring the fields
     const { email, password } = req.body;
     try {
+      const success = "false"
       const user = await User.findOne({ email });
       if (!user) {
         return res
@@ -98,7 +102,7 @@ router.post(
       };
       const authToken = jwt.sign(data, JWT_SECRET);
       console.log(authToken);
-      res.json({ authToken });
+      res.json({success:"true", authToken });
     } catch (error) {
       console.error(error.message);
       res.status(500).send("Internal server error");

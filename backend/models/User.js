@@ -23,7 +23,7 @@ const UserSchema = new Schema({
     }
 });
 
-
+// creating user as a object id to use it whenever we want to use in our another databases.
 const User = mongoose.model('user',UserSchema);
 
 // create indexes method to verify the uniqueness or to implement unique = true

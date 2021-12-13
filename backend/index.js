@@ -7,6 +7,7 @@ const express = require('express')
 connectMongo();
 
 const app = express();
+//cors for frontend to access the api
 var cors = require('cors')
 const port = 5000
 

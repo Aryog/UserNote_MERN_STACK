@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 
 export const Signup = (props) => {
     const host = "http://localhost:5000";
-    const [creds, setcreds] = useState({name:"",email: "", password:""})
+    const [creds, setcreds] = useState({name:"",email: "", password:"", cpassword:""})
     const history= useHistory();
 
     const onChange = (e)=>
@@ -17,6 +17,8 @@ export const Signup = (props) => {
     const handleClick = async (e)=>
     {
       e.preventDefault();
+      if(creds.cpassword===creds.password)
+      {
         const response = await fetch(`${host}/api/auth/createuser`, {
             method: "POST",
             headers: {
@@ -35,10 +37,16 @@ export const Signup = (props) => {
             console.log('success from the createuser json');
             props.showAlert("User created Successfully!","success")
           }
+        
           else
           {
               props.showAlert("Email Already Exists!","danger")
           }
+        }
+        else
+        {
+          props.showAlert("Confirmation Password didn't match!","warning")
+        }
     }
 
 
@@ -52,11 +60,11 @@ export const Signup = (props) => {
         </div>
         <div className="form-group">
           <label htmlFor="password">Password</label>
-          <input type="password" className="form-control" id="password" name="password" minLength={5}onChange={onChange} placeholder="Password" required/>
+          <input type="password" className="form-control" id="password" name="password" minLength={5} onChange={onChange} placeholder="Password" required/>
           <label htmlFor="cpassword">Confirm Password</label>
-          <input type="password" className="form-control" id="cpassword" name="cpassword" placeholder="Confirm Password" minLength={5} required/>
+          <input type="password" className="form-control" id="cpassword" name="cpassword" placeholder="Confirm Password" onChange={onChange} minLength={5} required/>
         </div>
-        <button type="submit" className="btn btn-primary">Submit</button>
+        <button type="submit" className="btn btn-primary" disabled={(creds.cpassword===creds.password)?"":"true"}>Submit</button>
       </form>
     )
 }
